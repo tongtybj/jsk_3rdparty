@@ -22,7 +22,7 @@
 // If you use Bluetooth, define ROSSERIAL_ARDUINO_BLUETOOTH
 // If you use Wi-Fi, define ROSSERIAL_ARDUINO_TCP
 // If you use USB, do not define anything
-/* #define ROSSERIAL_ARDUINO_TCP */
+#define ROSSERIAL_ARDUINO_TCP
 /* #define ROSSERIAL_ARDUINO_BLUETOOTH */
 
 #if defined(ROSSERIAL_ARDUINO_TCP)
@@ -82,7 +82,7 @@ void setupM5stackROS(char *name) {
 
   #if defined(ROSSERIAL_ARDUINO_TCP)
     setupWiFi();
-    nh.getHardware()->setConnection(server);
+    nh.getHardware()->setConnection(server, 11412);
     nh.initNode();
     Serial.println("Start m5stack_ros with WiFi connection");
   #elif defined(ROSSERIAL_ARDUINO_BLUETOOTH)

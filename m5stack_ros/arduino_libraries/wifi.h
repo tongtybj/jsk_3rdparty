@@ -4,9 +4,9 @@
 
 // Change here
 // DO NOT UPLOAD SSID AND PASSWORD
-const char* ssid = "*****";
-const char* password = "*****";
-IPAddress server(192, 168, 10, 100); //ROS core IP adres
+const char* ssid = "aerial_robot_2.4G";
+const char* password = "xxxxxxx";
+IPAddress server(xxx, xxx, xxx, xxx); //ROS core IP adres
 
 void setupWiFi() {
   WiFi.begin(ssid, password);
