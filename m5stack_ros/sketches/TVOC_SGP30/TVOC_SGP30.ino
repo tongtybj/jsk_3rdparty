@@ -6,6 +6,7 @@
 // Mainly copied from
 // https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/TVOC/TVOC
 
+#define M5STACK_ATOM
 #include <m5stack_ros.h>
 #include <TVOC_SGP30.h>
 #include <std_msgs/UInt16.h>

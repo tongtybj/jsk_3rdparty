@@ -22,13 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#ifndef M5STACK_ATOM
 #include <M5Stack.h>
+#endif
+
 #include <print.h>
 #include "Adafruit_SGP30.h"
 
 Adafruit_SGP30 sgp;
 int i = 15;
 long last_millis = 0;
+
+#ifndef M5STACK_ATOM
 void header(const char *string, uint16_t color)
 {
     M5.Lcd.fillScreen(color);
@@ -38,25 +43,33 @@ void header(const char *string, uint16_t color)
     M5.Lcd.setTextDatum(TC_DATUM);
     M5.Lcd.drawString(string, 160, 3, 4);
 }
+#endif
 
 void setupTVOCSGP30() {
+#ifndef M5STACK_ATOM
   header("SGP30 TEST",TFT_BLACK);
+#endif
+
   PRINTLN("SGP30 test");
   if (! sgp.begin()){
     PRINTLN("Sensor not found :(");
     while (1);
   }
 
-  M5.Lcd.drawString("TVOC:", 50, 40, 4);
-  M5.Lcd.drawString("eCO2:", 50, 80, 4);
   PRINT("Found SGP30 serial #");
   PRINT(sgp.serialnumber[0], HEX);
   PRINT(sgp.serialnumber[1], HEX);
   PRINTLN(sgp.serialnumber[2], HEX);
+
+#ifndef M5STACK_ATOM
+  M5.Lcd.drawString("TVOC:", 50, 40, 4);
+  M5.Lcd.drawString("eCO2:", 50, 80, 4);
   M5.Lcd.drawString("Initialization...", 140, 120, 4);
+#endif
 }
 
 void measureTVOCSGP30() {
+#ifndef M5STACK_ATOM
   while(i > 0) {
     if(millis()- last_millis > 1000) {
       last_millis = millis();
@@ -66,16 +79,21 @@ void measureTVOCSGP30() {
     }
   }
   M5.Lcd.fillRect(0, 120, 300, 30, TFT_BLACK);
+#endif
 
   if (! sgp.IAQmeasure()) {
     PRINTLN("Measurement failed");
     return;
   }
+
+#ifndef M5STACK_ATOM
   M5.Lcd.fillRect(100, 40, 220, 90, TFT_BLACK);
   M5.Lcd.drawNumber(sgp.TVOC, 120, 40 , 4);
   M5.Lcd.drawString("ppb", 200, 40, 4);
   M5.Lcd.drawNumber(sgp.eCO2, 120, 80, 4);
   M5.Lcd.drawString("ppm", 200, 80, 4);
+#endif
+
   PRINT("TVOC "); PRINT(sgp.TVOC); PRINTLN(" ppb");
   PRINT("eCO2 "); PRINT(sgp.eCO2); PRINTLN(" ppm");
   PRINTLN("");
