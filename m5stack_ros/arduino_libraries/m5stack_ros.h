@@ -4,7 +4,7 @@
 // If you use M5Stack, define M5STACK
 // If you use M5StickC, define M5STICK_C
 // If you use M5StickC, define M5STICK_C_PLUS
-#if !defined(M5STACK) && !defined(M5STICK_C) && !defined(M5STICK_C_PLUS)
+#if !defined(M5STACK) && !defined(M5STICK_C) && !defined(M5STICK_C_PLUS) && !defined(M5STACK_ATOM)
   #define M5STACK
 #endif
 
@@ -14,6 +14,8 @@
   #include <M5StickC.h>
 #elif defined(M5STICK_C_PLUS)
   #include <M5StickCPlus.h>
+#elif defined(M5STACK_ATOM)
+  #include <M5Atom.h>
 #endif
 
 #include <esp_info.h>
@@ -72,7 +74,14 @@ ros::NodeHandle_<ArduinoHardware,
                  NH_OUTPUT_SIZE> nh;
 
 void setupM5stackROS(char *name) {
+
+#ifdef M5STACK_ATOM
+  M5.begin(true, false, true);
+  Wire.begin(26, 32, 100000UL); // initialize the I2C with Groove Port
+#else
   M5.begin();
+#endif
+
   #if defined(M5STACK)
     M5.Speaker.begin();
     M5.Speaker.mute();
